@@ -17,7 +17,7 @@ where
     pub price_asset: Asset,
     pub side: OrderSide,
     pub price: f64,
-    pub qty: f64,
+    pub quantity: f64,
 }
 
 

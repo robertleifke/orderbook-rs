@@ -107,18 +107,18 @@ mod tests {
                 Ok(Success::Filled {
                        order_id: 2,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             } ||
             !match res[2] {
                 Ok(Success::PartiallyFilled {
                        order_id: 1,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             }
         {
@@ -173,36 +173,36 @@ mod tests {
                 Ok(Success::PartiallyFilled {
                        order_id: 3,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 12.0) && match_float(qty, 1.0) => true,
+                   }) if match_float(price, 12.0) && match_float(quantity, 1.0) => true,
                 _ => false,
             } ||
             !match res[2] {
                 Ok(Success::Filled {
                        order_id: 2,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 12.0) && match_float(qty, 1.0) => true,
+                   }) if match_float(price, 12.0) && match_float(quantity, 1.0) => true,
                 _ => false,
             } ||
             !match res[3] {
                 Ok(Success::Filled {
                        order_id: 3,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             } ||
             !match res[4] {
                 Ok(Success::PartiallyFilled {
                        order_id: 1,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             }
         {
@@ -278,18 +278,18 @@ mod tests {
                 Ok(Success::Filled {
                        order_id: 2,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             } ||
             !match res[2] {
                 Ok(Success::PartiallyFilled {
                        order_id: 1,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             }
         {
@@ -335,18 +335,18 @@ mod tests {
                 Ok(Success::Filled {
                        order_id: 2,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             } ||
             !match res[2] {
                 Ok(Success::PartiallyFilled {
                        order_id: 1,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             }
         {
@@ -372,18 +372,18 @@ mod tests {
                 Ok(Success::Filled {
                        order_id: 3,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             } ||
             !match res2[2] {
                 Ok(Success::Filled {
                        order_id: 1,
                        price,
-                       qty,
+                       quantity,
                        ..
-                   }) if match_float(price, 10.0) && match_float(qty, 0.5) => true,
+                   }) if match_float(price, 10.0) && match_float(quantity, 0.5) => true,
                 _ => false,
             }
         {

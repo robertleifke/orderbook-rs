@@ -8,7 +8,7 @@ use orderbook::{Orderbook, OrderSide, orders};
 #[derive(PartialEq, Eq, Debug, Copy, Clone)]
 pub enum BrokerAsset {
     USD,
-    EUR,
+    SOL,
     BTC,
     ETH,
 }
@@ -17,7 +17,7 @@ pub enum BrokerAsset {
 fn parse_asset(asset: &str) -> Option<BrokerAsset> {
     match asset {
         "USD" => Some(BrokerAsset::USD),
-        "EUR" => Some(BrokerAsset::EUR),
+        "EUR" => Some(BrokerAsset::SOL),
         "BTC" => Some(BrokerAsset::BTC),
         "ETH" => Some(BrokerAsset::ETH),
         _ => None,

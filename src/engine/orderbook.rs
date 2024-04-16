@@ -32,7 +32,7 @@ pub enum Success {
         side: OrderSide,
         order_type: OrderType,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     },
 
@@ -41,14 +41,14 @@ pub enum Success {
         side: OrderSide,
         order_type: OrderType,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     },
 
     Amended {
         id: u64,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     },
 
@@ -133,7 +133,7 @@ where
                 order_asset,
                 price_asset,
                 side,
-                qty,
+                quantity,
                 ts: _ts,
             } => {
                 // generate new ID for order
@@ -150,7 +150,7 @@ where
                     order_asset,
                     price_asset,
                     side,
-                    qty,
+                    quantity,
                 );
             }
 
@@ -159,7 +159,7 @@ where
                 price_asset,
                 side,
                 price,
-                qty,
+                quantity,
                 ts,
             } => {
                 let order_id = self.seq.next_id();
@@ -176,7 +176,7 @@ where
                     price_asset,
                     side,
                     price,
-                    qty,
+                    quantity,
                     ts,
                 );
             }
@@ -185,10 +185,10 @@ where
                 id,
                 side,
                 price,
-                qty,
+                quantity,
                 ts,
             } => {
-                self.process_order_amend(&mut proc_result, id, side, price, qty, ts);
+                self.process_order_amend(&mut proc_result, id, side, price, quantity, ts);
             }
 
             OrderRequest::CancelOrder { id, side } => {
@@ -218,7 +218,7 @@ where
         order_asset: Asset,
         price_asset: Asset,
         side: OrderSide,
-        qty: f64,
+        quantity: f64,
     ) {
         // get copy of the current limit order
         let opposite_order_result = {
@@ -238,7 +238,7 @@ where
                 price_asset,
                 OrderType::Market,
                 side,
-                qty,
+                quantity,
             );
 
             if !matching_complete {
@@ -249,7 +249,7 @@ where
                     order_asset,
                     price_asset,
                     side,
-                    qty - opposite_order.qty,
+                    quantity - opposite_order.quantity,
                 );
             }
 
@@ -268,7 +268,7 @@ where
         price_asset: Asset,
         side: OrderSide,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     ) {
         // take a look at current opposite limit order
@@ -297,7 +297,7 @@ where
                     price_asset,
                     OrderType::Limit,
                     side,
-                    qty,
+                    quantity,
                 );
 
                 if !matching_complete {
@@ -309,7 +309,7 @@ where
                         price_asset,
                         side,
                         price,
-                        qty - opposite_order.qty,
+                        quantity - opposite_order.quantity,
                         ts,
                     );
                 }
@@ -323,7 +323,7 @@ where
                     price_asset,
                     side,
                     price,
-                    qty,
+                    quantity,
                     ts,
                 );
             }
@@ -336,7 +336,7 @@ where
                 price_asset,
                 side,
                 price,
-                qty,
+                quantity,
                 ts,
             );
         }
@@ -349,7 +349,7 @@ where
         order_id: u64,
         side: OrderSide,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     ) {
         let order_queue = match side {
@@ -367,14 +367,14 @@ where
                 price_asset: self.price_asset,
                 side,
                 price,
-                qty,
+                quantity,
             },
         )
         {
             results.push(Ok(Success::Amended {
                 id: order_id,
                 price,
-                qty,
+                quantity,
                 ts: SystemTime::now(),
             }));
         } else {
@@ -416,7 +416,7 @@ where
         price_asset: Asset,
         side: OrderSide,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     ) {
         let order_queue = match side {
@@ -433,7 +433,7 @@ where
                 price_asset,
                 side,
                 price,
-                qty,
+                quantity,
             },
         )
         {
@@ -451,14 +451,14 @@ where
         price_asset: Asset,
         order_type: OrderType,
         side: OrderSide,
-        qty: f64,
+        quantity: f64,
     ) -> bool {
 
         // real processing time
         let deal_time = SystemTime::now();
 
         // match immediately
-        if qty < opposite_order.qty {
+        if quantity < opposite_order.quantity {
             // fill new limit and modify opposite limit
 
             // report filled new order
@@ -467,7 +467,7 @@ where
                 side,
                 order_type,
                 price: opposite_order.price,
-                qty,
+                quantity,
                 ts: deal_time,
             }));
 
@@ -477,7 +477,7 @@ where
                 side: opposite_order.side,
                 order_type: OrderType::Limit,
                 price: opposite_order.price,
-                qty,
+                quantity,
                 ts: deal_time,
             }));
 
@@ -493,11 +493,11 @@ where
                     price_asset,
                     side: opposite_order.side,
                     price: opposite_order.price,
-                    qty: opposite_order.qty - qty,
+                    quantity: opposite_order.quantity - quantity,
                 });
             }
 
-        } else if qty > opposite_order.qty {
+        } else if quantity > opposite_order.quantity {
             // partially fill new limit order, fill opposite limit and notify to process the rest
 
             // report new order partially filled
@@ -506,7 +506,7 @@ where
                 side,
                 order_type,
                 price: opposite_order.price,
-                qty: opposite_order.qty,
+                quantity: opposite_order.quantity,
                 ts: deal_time,
             }));
 
@@ -516,7 +516,7 @@ where
                 side: opposite_order.side,
                 order_type: OrderType::Limit,
                 price: opposite_order.price,
-                qty: opposite_order.qty,
+                quantity: opposite_order.quantity,
                 ts: deal_time,
             }));
 
@@ -541,7 +541,7 @@ where
                 side,
                 order_type,
                 price: opposite_order.price,
-                qty,
+                quantity,
                 ts: deal_time,
             }));
             // report filled opposite limit order
@@ -550,7 +550,7 @@ where
                 side: opposite_order.side,
                 order_type: OrderType::Limit,
                 price: opposite_order.price,
-                qty,
+                quantity,
                 ts: deal_time,
             }));
 

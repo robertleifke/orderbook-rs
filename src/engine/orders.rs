@@ -14,7 +14,7 @@ where
         order_asset: Asset,
         price_asset: Asset,
         side: OrderSide,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     },
 
@@ -23,7 +23,7 @@ where
         price_asset: Asset,
         side: OrderSide,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     },
 
@@ -31,7 +31,7 @@ where
         id: u64,
         side: OrderSide,
         price: f64,
-        qty: f64,
+        quantity: f64,
         ts: SystemTime,
     },
 
@@ -51,7 +51,7 @@ pub fn new_market_order_request<Asset>(
     order_asset: Asset,
     price_asset: Asset,
     side: OrderSide,
-    qty: f64,
+    quantity: f64,
     ts: SystemTime,
 ) -> OrderRequest<Asset>
 where
@@ -61,7 +61,7 @@ where
     OrderRequest::NewMarketOrder {
         order_asset,
         price_asset,
-        qty,
+        quantity,
         side,
         ts,
     }
@@ -74,7 +74,7 @@ pub fn new_limit_order_request<Asset>(
     price_asset: Asset,
     side: OrderSide,
     price: f64,
-    qty: f64,
+    quantity: f64,
     ts: SystemTime,
 ) -> OrderRequest<Asset>
 where
@@ -86,13 +86,13 @@ where
         price_asset,
         side,
         price,
-        qty,
+        quantity,
         ts,
     }
 }
 
 
-/// Create request for changing price/qty for the active limit order.
+/// Create request for changing price/quantity for the active limit order.
 ///
 /// Note: do not change order side!
 /// Instead cancel existing order and create a new one.
@@ -100,7 +100,7 @@ pub fn amend_order_request<Asset>(
     id: u64,
     side: OrderSide,
     price: f64,
-    qty: f64,
+    quantity: f64,
     ts: SystemTime,
 ) -> OrderRequest<Asset>
 where
@@ -111,7 +111,7 @@ where
         id,
         side,
         price,
-        qty,
+        quantity,
         ts,
     }
 }
